@@ -11,7 +11,7 @@ export default {
   // 支持值为 Object 和 Array
   'GET /api/currentUser': {
     status: 1,
-    name: '莎士比亚',
+    name: '一只小阿沁',
     icon: 'https://tva1.sinaimg.cn/large/00831rSTly1gdm7eok2oij301s01sgli.jpg',
     userId: '001',
   },

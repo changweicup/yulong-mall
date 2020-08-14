@@ -1,5 +1,4 @@
 import { Effect, Reducer } from 'umi';
-import demoService from '@/services/demoService';
 
 export interface DemoModelState {}
 

@@ -1,9 +1,13 @@
 import { Effect, Reducer } from 'umi';
 import { Toast } from 'antd-mobile';
-import { queryCurrent, queryDetail } from '@/services/userService';
+import {
+  queryCurrent,
+  queryDetail,
+  fakeAccountLoginout,
+} from '@/services/userService';
 import { fakeAccountLogin } from '@/services/loginService';
 
-export interface CurrentUser {
+interface CurrentUser {
   name?: string;
   icon?: string;
   userId?: string;
@@ -42,9 +46,11 @@ export interface UserModelType {
     fetchCurrent: Effect;
     login: Effect;
     queryDetail: Effect;
+    logout: Effect;
   };
   reducers: {
     saveUser: Reducer<UserModelState>;
+    clearUser: Reducer<UserModelState>;
   };
 }
 
@@ -83,9 +89,19 @@ const UserModel: UserModelType = {
         payload: { detail: { ...res } },
       });
     },
+    *logout(_, { call, put }) {
+      const res = yield call(fakeAccountLoginout);
+      yield put({
+        type: 'clearUser',
+        payload: { currentUser: {}, detail: { name: '', icon: '' } },
+      });
+    },
   },
   reducers: {
     saveUser(state, action) {
+      return { ...state, ...action.payload };
+    },
+    clearUser(state, action) {
       return { ...state, ...action.payload };
     },
   },

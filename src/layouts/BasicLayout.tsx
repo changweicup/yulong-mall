@@ -11,7 +11,6 @@ interface BasicLayoutProps extends ConnectProps {
 
 const BasicLayout: React.FC<BasicLayoutProps> = props => {
   const { children, location, dispatch, user } = props;
-  const { pathname } = location;
 
   useEffect(() => {
     //获取用户基本信息
@@ -22,10 +21,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
     }
   }, []);
 
+  const { pathname } = location;
+  const showBottomNav = pathname !== '/login';
+
   return (
     <div className={styles.main}>
       <article>{children}</article>
-      <BottomNav pathname={pathname} />
+      <footer>{showBottomNav && <BottomNav pathname={pathname} />}</footer>
     </div>
   );
 };

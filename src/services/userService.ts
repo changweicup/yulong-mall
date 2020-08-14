@@ -7,3 +7,7 @@ export async function queryCurrent(): Promise<any> {
 export async function queryDetail(): Promise<any> {
   return request('/api/getUserDetail');
 }
+
+export async function fakeAccountLoginout(): Promise<any> {
+  return request('/api/logout');
+}
