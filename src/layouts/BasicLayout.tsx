@@ -22,7 +22,6 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
     }
   }, []);
 
-  console.log(props);
   return (
     <div className={styles.main}>
       <article>{children}</article>

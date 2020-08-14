@@ -13,7 +13,7 @@ export default {
     status: 1,
     name: '莎士比亚',
     icon: 'https://tva1.sinaimg.cn/large/00831rSTly1gdm7eok2oij301s01sgli.jpg',
-    userid: '001',
+    userId: '001',
   },
   // GET POST 可省略
   'GET /api/users': [
@@ -44,7 +44,7 @@ export default {
         name: '莎士比亚',
         icon:
           'https://tva1.sinaimg.cn/large/00831rSTly1gdm7eok2oij301s01sgli.jpg',
-        userid: '001',
+        userId: '001',
       });
     } else {
       res.send({

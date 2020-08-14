@@ -1,10 +1,23 @@
-import React from 'react';
-import styles from './index.less';
+import React, { useEffect } from 'react';
+import { connect } from 'umi';
+import { ConnectState, UserModelState, ConnectProps } from '@/models/connect';
+import Header from './Header';
 
-export default () => {
+interface UserProps extends ConnectProps {
+  user: UserModelState;
+}
+
+const User: React.FC<UserProps> = ({ user, dispatch }) => {
+  useEffect(() => {
+    dispatch({ type: 'user/queryDetail' });
+  }, []);
+
+  const { name, icon } = user.detail;
   return (
     <div>
-      <h1 className={styles.title}>Page user/index</h1>
+      <Header name={name} icon={icon} />
     </div>
   );
 };
+
+export default connect(({ user }: ConnectState) => ({ user }))(User);

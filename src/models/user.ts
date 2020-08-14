@@ -1,5 +1,7 @@
 import { Effect, Reducer } from 'umi';
-import { queryCurrent } from '@/services/userService';
+import { Toast } from 'antd-mobile';
+import { queryCurrent, queryDetail } from '@/services/userService';
+import { fakeAccountLogin } from '@/services/loginService';
 
 export interface CurrentUser {
   name?: string;
@@ -7,8 +9,30 @@ export interface CurrentUser {
   userId?: string;
 }
 
+interface DetailUser {
+  name: string;
+  icon: string;
+  userid: string;
+  email: string;
+  phone: string;
+  address: string;
+  signature?: string;
+  title?: string;
+  tags?: {
+    key: string;
+    label: string;
+  }[];
+  country: string;
+}
+
 export interface UserModelState {
   currentUser: CurrentUser;
+  detail:
+    | DetailUser
+    | {
+        name: string;
+        icon: string;
+      };
 }
 
 export interface UserModelType {
@@ -16,9 +40,11 @@ export interface UserModelType {
   state: UserModelState;
   effects: {
     fetchCurrent: Effect;
+    login: Effect;
+    queryDetail: Effect;
   };
   reducers: {
-    saveCurrentUser: Reducer<UserModelState>;
+    saveUser: Reducer<UserModelState>;
   };
 }
 
@@ -26,19 +52,40 @@ const UserModel: UserModelType = {
   namespace: 'user',
   state: {
     currentUser: {},
+    detail: {
+      name: '',
+      icon: '',
+    },
   },
   effects: {
     *fetchCurrent(_, { call, put }) {
       const res = yield call(queryCurrent);
-      console.log('res' + res);
       yield put({
-        type: 'saveCurrentUser',
+        type: 'saveUser',
         payload: { currentUser: { ...res } },
+      });
+    },
+    *login({ payload }, { call, put }) {
+      const res = yield call(fakeAccountLogin, payload);
+      if (res.status === 1) {
+        yield put({
+          type: 'saveUser',
+          payload: { currentUser: { ...res } },
+        });
+      } else {
+        Toast.fail(res.msg || '系统开小差，请稍后再试');
+      }
+    },
+    *queryDetail(_, { call, put }) {
+      const res = yield call(queryDetail);
+      yield put({
+        type: 'saveUser',
+        payload: { detail: { ...res } },
       });
     },
   },
   reducers: {
-    saveCurrentUser(state, action) {
+    saveUser(state, action) {
       return { ...state, ...action.payload };
     },
   },
