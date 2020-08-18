@@ -23,7 +23,7 @@ const PayModal: React.FC<PayModalProps> = ({ showPay, onOpenChange }) => {
       Toast.success('支付成功！', 2);
       onOpenChange();
       setTimeout(() => {
-        history.push('/olist');
+        history.push('/order');
       }, 2000);
     }, 1000);
   }, []);
